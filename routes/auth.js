@@ -16,6 +16,13 @@ router.post("/signup", async (req, res) => {
     await pool.query(query, values);
     res.status(201).json({ message: "User registered successfully!" });
   } catch (err) {
+    await pool.query(
+      ` CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL
+      )`
+    );
     res.status(500).json({ error: "Database error" });
   }
 });
